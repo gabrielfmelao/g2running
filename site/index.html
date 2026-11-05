@@ -213,6 +213,10 @@
   .cores{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
   .cor{border:2px solid var(--line);background:var(--ink-3);padding:16px 10px 14px;text-align:center;cursor:pointer;font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone);transition:border-color .2s}
   .cor .meia{display:block;width:72px;height:90px;margin:0 auto 10px;transition:transform .2s}
+  .cor.has-foto{padding:0 0 14px;background:#191919;overflow:hidden}
+  .cor .foto{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;margin:0 0 10px}
+  .cor.has-foto:hover .meia,.cor.has-foto.sel .meia{transform:scale(1.06)}
+  .cor.soon .foto{filter:hue-rotate(200deg) saturate(2.2) sepia(.4)}
   .cor:hover .meia,.cor.sel .meia{transform:translateY(-3px)}
   .cor:hover,.cor.sel{border-color:var(--red)}
   .cor.sel{background:var(--ink)}
@@ -484,37 +488,15 @@
 
   fetch('video/abertura.mp4',{method:'HEAD'}).then(r=>{if(r.ok){const v=document.getElementById('openingVideo');v.src='video/abertura.mp4';document.getElementById('abertura').classList.add('on');}}).catch(()=>{});
 </script>
-<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="rainbow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D92B2B"/><stop offset=".5" stop-color="#F5F4EF"/><stop offset="1" stop-color="#2E6BD9"/></linearGradient></defs></svg>
 <div class="modal" id="corModal" role="dialog" aria-modal="true">
   <div class="box">
     <button class="x" type="button" aria-label="Fechar" data-close>&times;</button>
     <h3>Qual cor você quer?</h3>
     <p>Escolha a cor do seu kit. A gente separa a sua antes de abrir a loja.</p>
     <div class="cores">
-      <button type="button" class="cor" data-cor="Preta"><svg viewBox="0 0 120 150" class="meia">
-          <path d="M36 6h46v66c0 10 8 16 20 26 14 12 12 34-6 40-16 6-36-4-50-20L36 108z" fill="#181818" stroke="#F5F4EF" stroke-width="5" stroke-linejoin="round"/>
-          <path d="M36 6h46v20H36z" fill="#F5F4EF" opacity=".9"/>
-          <path d="M42 14h34M42 20h34" stroke="#181818" stroke-width="1.5" opacity=".5"/>
-          <path d="M46 98c14 16 28 24 44 22" stroke="#D92B2B" stroke-width="7" stroke-linecap="round" fill="none"/>
-          <path d="M44 48h30M44 58h30M44 68h30" stroke="#F5F4EF" stroke-width="2" stroke-linecap="round" opacity=".18"/>
-          <image href="logo/g2_logo_transparente_branco.svg?v=2" x="40" y="30" width="40" height="18" preserveAspectRatio="xMidYMid meet"/>
-        </svg>Preta</button>
-      <button type="button" class="cor" data-cor="Branca"><svg viewBox="0 0 120 150" class="meia">
-          <path d="M36 6h46v66c0 10 8 16 20 26 14 12 12 34-6 40-16 6-36-4-50-20L36 108z" fill="#F5F4EF" stroke="#181818" stroke-width="5" stroke-linejoin="round"/>
-          <path d="M36 6h46v20H36z" fill="#181818" opacity=".9"/>
-          <path d="M42 14h34M42 20h34" stroke="#F5F4EF" stroke-width="1.5" opacity=".5"/>
-          <path d="M46 98c14 16 28 24 44 22" stroke="#D92B2B" stroke-width="7" stroke-linecap="round" fill="none"/>
-          <path d="M44 48h30M44 58h30M44 68h30" stroke="#181818" stroke-width="2" stroke-linecap="round" opacity=".18"/>
-          <image href="logo/g2_logo_transparente_preto.svg?v=2" x="40" y="30" width="40" height="18" preserveAspectRatio="xMidYMid meet"/>
-        </svg>Branca</button>
-      <button type="button" class="cor soon" disabled><svg viewBox="0 0 120 150" class="meia">
-          <path d="M36 6h46v66c0 10 8 16 20 26 14 12 12 34-6 40-16 6-36-4-50-20L36 108z" fill="url(#rainbow)" stroke="#F5F4EF" stroke-width="5" stroke-linejoin="round"/>
-          <path d="M36 6h46v20H36z" fill="#F5F4EF" opacity=".9"/>
-          <path d="M42 14h34M42 20h34" stroke="url(#rainbow)" stroke-width="1.5" opacity=".5"/>
-          <path d="M46 98c14 16 28 24 44 22" stroke="#D92B2B" stroke-width="7" stroke-linecap="round" fill="none"/>
-          <path d="M44 48h30M44 58h30M44 68h30" stroke="#F5F4EF" stroke-width="2" stroke-linecap="round" opacity=".18"/>
-          <image href="logo/g2_logo_transparente_branco.svg?v=2" x="40" y="30" width="40" height="18" preserveAspectRatio="xMidYMid meet"/>
-        </svg>Colorida<small>Em breve</small></button>
+      <button type="button" class="cor has-foto" data-cor="Preta"><img class="meia foto" src="img/meia-preta.png" alt="Meia G2 preta">Preta</button>
+      <button type="button" class="cor has-foto" data-cor="Branca"><img class="meia foto" src="img/meia-branca.png" alt="Meia G2 branca">Branca</button>
+      <button type="button" class="cor soon has-foto" disabled><img class="meia foto" src="img/meia-branca.png" alt="Meia G2 colorida, em breve">Colorida<small>Em breve</small></button>
     </div>
     <button class="btn btn-red" type="button" id="corConfirm" disabled><span>Confirmar e entrar na lista</span></button>
     <div class="ok">Você está na lista ✓<br><small style="font-weight:400;font-size:14px;color:var(--mute)">Avisamos 24h antes de abrir.</small></div>
