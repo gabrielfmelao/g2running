@@ -65,6 +65,7 @@
   nav ul a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--red);transition:width .25s ease}
   nav ul a:hover::after{width:100%}
   @media(max-width:860px){nav ul{display:none}}
+  @media(max-width:600px){nav .wrap{height:64px;padding:0 16px}nav .logo img{height:40px}nav .btn{padding:12px 14px;font-size:11px;letter-spacing:.08em;white-space:nowrap}.wrap{padding:0 16px}.hero .wrap{padding-top:48px;padding-bottom:48px}}
 
   .opening{display:none;background:#0E0E0E;position:relative;border-bottom:1px solid var(--line)}
   .opening.on{display:block}
@@ -72,7 +73,7 @@
   .opening .over{position:absolute;inset:0;display:flex;align-items:flex-end;background:linear-gradient(to top,rgba(14,14,14,.9) 0%,rgba(14,14,14,.2) 50%,transparent)}
   .opening .over .wrap{padding-bottom:48px;width:100%}
   .opening .over h2{font-size:clamp(28px,4vw,52px);max-width:18ch;margin-bottom:12px}
-  .opening .over span{font-size:13px;color:var(--mute)}
+  .opening .over .wrap>span{font-size:13px;color:var(--mute)}
 
   .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);min-height:min(calc(100vh - 76px),860px);display:flex;align-items:center}
   .hero .bg{position:absolute;inset:0;background:
