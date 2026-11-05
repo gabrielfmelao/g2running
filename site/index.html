@@ -223,6 +223,11 @@
   .cor.soon{cursor:not-allowed;opacity:.5}
   .cor.soon:hover{border-color:var(--line)}
   .cor.soon small{display:block;color:var(--red);font-size:10px;margin-top:6px;letter-spacing:.14em}
+  .dados{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+  .dados input{background:var(--ink-3);border:2px solid var(--line);color:var(--bone);padding:14px 16px;font-size:15px;font-family:inherit;outline:0;min-width:0}
+  .dados input:focus{border-color:var(--bone)}
+  .modal.done .dados{display:none}
+  @media(max-width:480px){.dados{grid-template-columns:1fr}}
   .modal .btn-red{width:100%}
   .modal .btn-red[disabled]{opacity:.4;cursor:not-allowed}
   .modal .ok{display:none;text-align:center;padding:20px 0 4px;color:var(--bone);font-family:var(--display);font-weight:700;font-size:20px}
@@ -498,6 +503,10 @@
       <button type="button" class="cor has-foto" data-cor="Branca"><img class="meia foto" src="img/meia-branca.png" alt="Meia G2 branca">Branca</button>
       <button type="button" class="cor soon has-foto" disabled><img class="meia foto" src="img/meia-branca.png" alt="Meia G2 colorida, em breve">Colorida<small>Em breve</small></button>
     </div>
+    <div class="dados">
+      <input type="text" id="leadNome" placeholder="Seu nome" autocomplete="name" required>
+      <input type="tel" id="leadCel" placeholder="Celular com DDD" autocomplete="tel" inputmode="tel" required>
+    </div>
     <button class="btn btn-red" type="button" id="corConfirm" disabled><span>Confirmar e entrar na lista</span></button>
     <div class="ok">Você está na lista ✓<br><small style="font-weight:400;font-size:14px;color:var(--mute)">Avisamos 24h antes de abrir.</small></div>
   </div>
@@ -505,8 +514,8 @@
 
 <script>
   // ===== LEADS =====
-  // Cole aqui o endpoint do Formspree (https://formspree.io), ex.: 'https://formspree.io/f/abcdwxyz'
-  // Enquanto estiver vazio, os leads ficam só no console e no localStorage do navegador.
+  // Cole aqui a URL do Apps Script da planilha (termina em /exec). Veja LEADS.md na raiz do repositório.
+  // Enquanto estiver vazia, os leads ficam só no console e no localStorage do navegador.
   const LEAD_ENDPOINT = '';
 
   const modal=document.getElementById('corModal'), confirmBtn=document.getElementById('corConfirm');
@@ -516,11 +525,14 @@
     e.preventDefault();
     pendingEmail=f.querySelector('input[type=email]').value.trim(); pendingForm=f; cor='';
     document.querySelectorAll('.cor').forEach(c=>c.classList.remove('sel'));
-    confirmBtn.disabled=true; modal.classList.remove('done'); modal.classList.add('on');
+    nomeEl.value='';celEl.value='';confirmBtn.disabled=true; modal.classList.remove('done'); modal.classList.add('on');
   }));
+  const nomeEl=document.getElementById('leadNome'), celEl=document.getElementById('leadCel');
+  const check=()=>{confirmBtn.disabled=!(cor&&nomeEl.value.trim().length>1&&celEl.value.replace(/\D/g,'').length>=10)};
+  nomeEl.addEventListener('input',check); celEl.addEventListener('input',check);
   document.querySelectorAll('.cor:not(.soon)').forEach(c=>c.addEventListener('click',()=>{
     document.querySelectorAll('.cor').forEach(x=>x.classList.remove('sel')); c.classList.add('sel');
-    cor=c.dataset.cor; confirmBtn.disabled=false;
+    cor=c.dataset.cor; check();
   }));
   const close=()=>modal.classList.remove('on');
   modal.querySelector('[data-close]').addEventListener('click',close);
@@ -528,11 +540,11 @@
   document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 
   confirmBtn.addEventListener('click',async()=>{
-    const lead={email:pendingEmail,cor,origem:location.href,data:new Date().toISOString()};
+    const lead={nome:nomeEl.value.trim(),email:pendingEmail,celular:celEl.value.trim(),cor,origem:location.href,data:new Date().toISOString()};
     confirmBtn.disabled=true;
     try{
       if(LEAD_ENDPOINT){
-        await fetch(LEAD_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(lead)});
+        await fetch(LEAD_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(lead)});
       }else{
         console.log('[G2 lead]',lead);
         const all=JSON.parse(localStorage.getItem('g2_leads')||'[]'); all.push(lead); localStorage.setItem('g2_leads',JSON.stringify(all));
