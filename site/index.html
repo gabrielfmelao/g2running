@@ -37,7 +37,11 @@
   .btn-ghost:hover{color:var(--ink)}
   .btn-ghost:hover::after{transform:translateX(0)}
 
-  form.wl{display:flex;max-width:560px;border:2px solid var(--bone);background:rgba(24,24,24,.6)}
+  form.wl{display:grid;grid-template-columns:1fr 1fr;max-width:560px;border:2px solid var(--bone);background:rgba(24,24,24,.6)}
+  form.wl input[name=nome]{grid-column:1/-1;border-bottom:1px solid var(--line)}
+  form.wl input[name=email]{border-right:1px solid var(--line)}
+  form.wl .btn{grid-column:1/-1}
+  @media(max-width:480px){form.wl{grid-template-columns:1fr}form.wl input[name=email]{border-right:0;border-bottom:1px solid var(--line)}}
   form.wl input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--bone);padding:18px 22px;font-size:15px;font-family:inherit}
   form.wl input::placeholder{color:var(--mute)}
   form.wl .btn{padding:18px 24px}
@@ -223,11 +227,6 @@
   .cor.soon{cursor:not-allowed;opacity:.5}
   .cor.soon:hover{border-color:var(--line)}
   .cor.soon small{display:block;color:var(--red);font-size:10px;margin-top:6px;letter-spacing:.14em}
-  .dados{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-  .dados input{background:var(--ink-3);border:2px solid var(--line);color:var(--bone);padding:14px 16px;font-size:15px;font-family:inherit;outline:0;min-width:0}
-  .dados input:focus{border-color:var(--bone)}
-  .modal.done .dados{display:none}
-  @media(max-width:480px){.dados{grid-template-columns:1fr}}
   .modal .btn-red{width:100%}
   .modal .btn-red[disabled]{opacity:.4;cursor:not-allowed}
   .modal .ok{display:none;text-align:center;padding:20px 0 4px;color:var(--bone);font-family:var(--display);font-weight:700;font-size:20px}
@@ -276,7 +275,9 @@
       <h1 class="rv d1"><span>Seu pé</span><span>não deveria</span><span class="it">pensar.</span></h1>
       <p class="lead rv d2">A revolução das meias dos corredores, amadores ou profissionais. Meia de corrida em poliamida de alta tenacidade. Pé esquerdo e direito, sem costura no dedo, seca em minutos. A G2 some no pé para você se lembrar só do ritmo.</p>
       <form class="wl rv d3" data-lead>
-        <input type="email" required placeholder="seu@email.com">
+        <input type="text" name="nome" required placeholder="Seu nome" autocomplete="name">
+        <input type="email" name="email" required placeholder="seu@email.com" autocomplete="email">
+        <input type="tel" name="celular" required placeholder="Celular com DDD" autocomplete="tel" inputmode="tel">
         <button class="btn btn-red" type="submit"><span>Entrar na lista</span></button>
       </form>
       <div class="fine rv d3">Lote 001: 100 kits a R$ 149,90 só para quem está na lista.</div>
@@ -460,9 +461,11 @@
     <h2 class="rv d1">100 kits. Preço de lançamento. <span class="red">Depois acabou.</span></h2>
     <p class="rv d2">Deixe seu e-mail e a gente avisa 24 horas antes de abrir a loja. Quem está na lista paga R$ 149,90 no kit de 3.</p>
     <form class="wl rv d3" data-lead>
-      <input type="email" required placeholder="seu@email.com">
-      <button class="btn btn-red" type="submit"><span>Entrar na lista</span></button>
-    </form>
+        <input type="text" name="nome" required placeholder="Seu nome" autocomplete="name">
+        <input type="email" name="email" required placeholder="seu@email.com" autocomplete="email">
+        <input type="tel" name="celular" required placeholder="Celular com DDD" autocomplete="tel" inputmode="tel">
+        <button class="btn btn-red" type="submit"><span>Entrar na lista</span></button>
+      </form>
     <div class="fine">Sem spam. Um e-mail quando abrir, outro quando acabar.</div>
     <div class="perks rv d3"><div><b>R$ 20</b> de desconto no kit</div><div><b>24h</b> de acesso antecipado</div><div><b>Frete grátis</b> no lote 001</div></div>
   </div>
@@ -503,10 +506,6 @@
       <button type="button" class="cor has-foto" data-cor="Branca"><img class="meia foto" src="img/meia-branca.png" alt="Meia G2 branca">Branca</button>
       <button type="button" class="cor soon has-foto" disabled><img class="meia foto" src="img/meia-branca.png" alt="Meia G2 colorida, em breve">Colorida<small>Em breve</small></button>
     </div>
-    <div class="dados">
-      <input type="text" id="leadNome" placeholder="Seu nome" autocomplete="name" required>
-      <input type="tel" id="leadCel" placeholder="Celular com DDD" autocomplete="tel" inputmode="tel" required>
-    </div>
     <button class="btn btn-red" type="button" id="corConfirm" disabled><span>Confirmar e entrar na lista</span></button>
     <div class="ok">Você está na lista ✓<br><small style="font-weight:400;font-size:14px;color:var(--mute)">Avisamos 24h antes de abrir.</small></div>
   </div>
@@ -519,20 +518,17 @@
   const LEAD_ENDPOINT = '';
 
   const modal=document.getElementById('corModal'), confirmBtn=document.getElementById('corConfirm');
-  let pendingEmail='', pendingForm=null, cor='';
+  let pending={}, pendingForm=null, cor='';
 
   document.querySelectorAll('form[data-lead]').forEach(f=>f.addEventListener('submit',e=>{
     e.preventDefault();
-    pendingEmail=f.querySelector('input[type=email]').value.trim(); pendingForm=f; cor='';
+    pending={nome:f.nome.value.trim(),email:f.email.value.trim(),celular:f.celular.value.trim()}; pendingForm=f; cor='';
     document.querySelectorAll('.cor').forEach(c=>c.classList.remove('sel'));
-    nomeEl.value='';celEl.value='';confirmBtn.disabled=true; modal.classList.remove('done'); modal.classList.add('on');
+    confirmBtn.disabled=true; modal.classList.remove('done'); modal.classList.add('on');
   }));
-  const nomeEl=document.getElementById('leadNome'), celEl=document.getElementById('leadCel');
-  const check=()=>{confirmBtn.disabled=!(cor&&nomeEl.value.trim().length>1&&celEl.value.replace(/\D/g,'').length>=10)};
-  nomeEl.addEventListener('input',check); celEl.addEventListener('input',check);
   document.querySelectorAll('.cor:not(.soon)').forEach(c=>c.addEventListener('click',()=>{
     document.querySelectorAll('.cor').forEach(x=>x.classList.remove('sel')); c.classList.add('sel');
-    cor=c.dataset.cor; check();
+    cor=c.dataset.cor; confirmBtn.disabled=false;
   }));
   const close=()=>modal.classList.remove('on');
   modal.querySelector('[data-close]').addEventListener('click',close);
@@ -540,7 +536,7 @@
   document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 
   confirmBtn.addEventListener('click',async()=>{
-    const lead={nome:nomeEl.value.trim(),email:pendingEmail,celular:celEl.value.trim(),cor,origem:location.href,data:new Date().toISOString()};
+    const lead={...pending,cor,origem:location.href,data:new Date().toISOString()};
     confirmBtn.disabled=true;
     try{
       if(LEAD_ENDPOINT){
@@ -551,7 +547,7 @@
       }
     }catch(err){console.error('lead error',err)}
     modal.classList.add('done');
-    if(pendingForm){pendingForm.querySelector('button span').textContent='Você está na lista ✓';pendingForm.querySelector('input').value='';}
+    if(pendingForm){pendingForm.querySelector('button span').textContent='Você está na lista ✓';pendingForm.reset();}
     setTimeout(close,1800);
   });
 </script>
