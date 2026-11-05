@@ -232,6 +232,14 @@
   .modal .ok{display:none;text-align:center;padding:20px 0 4px;color:var(--bone);font-family:var(--display);font-weight:700;font-size:20px}
   .modal.done .ok{display:block}
   .modal.done .cores,.modal.done .btn-red,.modal.done p{display:none}
+
+  .preco{max-width:560px;margin:18px 0 8px;padding:14px 18px;border-left:3px solid var(--red);background:rgba(255,255,255,.04)}
+  .preco .kit{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+  .preco .val{font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:-.02em;color:var(--bone);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .preco .val s{font-size:16px;font-weight:700;color:var(--mute)}
+  .preco .val b{color:var(--red)}
+  .preco .val small{font-family:var(--body);font-weight:400;font-size:13px;color:var(--mute);letter-spacing:0}
+  .wait .preco{margin:18px auto 8px;text-align:left}
 </style>
 </head>
 <body>
@@ -280,7 +288,11 @@
         <input type="tel" name="celular" required placeholder="Celular com DDD" autocomplete="tel" inputmode="tel">
         <button class="btn btn-red" type="submit"><span>Entrar na lista</span></button>
       </form>
-      <div class="fine rv d3">Lote 001: 100 kits a R$ 149,90 só para quem está na lista.</div>
+      <div class="preco rv d3">
+        <div class="kit">Kit 3 pares · Lote 001</div>
+        <div class="val"><s>R$ 169,90</s> <b>R$ 149,90</b> <small>na lista · R$ 49,97 o par · frete grátis</small></div>
+      </div>
+      <div class="fine rv d3">Só 100 kits com esse preço, só para quem está na lista.</div>
     </div>
     <div class="panel rv d2">
       <img src="logo/g2_logo_transparente_preto.svg?v=2" alt="G2 · Tecnologia e Performance">
@@ -459,13 +471,17 @@
   <div class="wrap">
     <div class="eyebrow rv" style="margin-bottom:20px;display:inline-block">Lote 001</div>
     <h2 class="rv d1">100 kits. Preço de lançamento. <span class="red">Depois acabou.</span></h2>
-    <p class="rv d2">Deixe seu e-mail e a gente avisa 24 horas antes de abrir a loja. Quem está na lista paga R$ 149,90 no kit de 3.</p>
+    <p class="rv d2">Deixe nome, e-mail e celular e a gente avisa 24 horas antes de abrir a loja. Quem está na lista paga R$ 149,90 no kit de 3.</p>
     <form class="wl rv d3" data-lead>
         <input type="text" name="nome" required placeholder="Seu nome" autocomplete="name">
         <input type="email" name="email" required placeholder="seu@email.com" autocomplete="email">
         <input type="tel" name="celular" required placeholder="Celular com DDD" autocomplete="tel" inputmode="tel">
         <button class="btn btn-red" type="submit"><span>Entrar na lista</span></button>
       </form>
+    <div class="preco">
+        <div class="kit">Kit 3 pares · Lote 001</div>
+        <div class="val"><s>R$ 169,90</s> <b>R$ 149,90</b> <small>na lista · R$ 49,97 o par · frete grátis</small></div>
+      </div>
     <div class="fine">Sem spam. Um e-mail quando abrir, outro quando acabar.</div>
     <div class="perks rv d3"><div><b>R$ 20</b> de desconto no kit</div><div><b>24h</b> de acesso antecipado</div><div><b>Frete grátis</b> no lote 001</div></div>
   </div>
