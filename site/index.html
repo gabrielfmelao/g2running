@@ -230,9 +230,13 @@
   .cor.soon small{display:block;color:var(--red);font-size:10px;margin-top:6px;letter-spacing:.14em}
   .modal .btn-red{width:100%}
   .modal .btn-red[disabled]{opacity:.4;cursor:not-allowed}
-  .modal .ok{display:none;text-align:center;padding:20px 0 4px;color:var(--bone);font-family:var(--display);font-weight:700;font-size:20px}
+  .modal .ok,.modal .loading{display:none;text-align:center;padding:24px 0 8px;color:var(--bone);font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-.01em}
+  .modal .ok small{display:block;margin-top:10px;font-family:var(--body);font-weight:400;font-size:14px;color:var(--mute);max-width:34ch;margin-left:auto;margin-right:auto}
+  .modal .spin{display:inline-block;width:18px;height:18px;border:3px solid var(--line);border-top-color:var(--red);border-radius:50%;margin-right:12px;vertical-align:-3px;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .modal.busy .loading{display:block}
   .modal.done .ok{display:block}
-  .modal.done .cores,.modal.done .btn-red,.modal.done p{display:none}
+  .modal.busy .cores,.modal.busy .btn-red,.modal.busy p,.modal.done .cores,.modal.done .btn-red,.modal.done p{display:none}
 
   .preco{max-width:560px;margin:18px 0 8px;padding:14px 18px;border-left:3px solid var(--red);background:rgba(255,255,255,.04)}
   .preco .kit{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
@@ -524,7 +528,8 @@
       <button type="button" class="cor soon has-foto" disabled><img class="meia foto" src="img/meia-branca.png" alt="Meia G2 colorida, em breve">Colorida<small>Em breve</small></button>
     </div>
     <button class="btn btn-red" type="button" id="corConfirm" disabled><span>Confirmar e entrar na lista</span></button>
-    <div class="ok">Você está na lista ✓<br><small style="font-weight:400;font-size:14px;color:var(--mute)">Avisamos 24h antes de abrir.</small></div>
+    <div class="loading"><span class="spin"></span>Garantindo a sua meia…</div>
+    <div class="ok">Sua meia está garantida ✓<br><small>A meia que vai ser a mais usada pelos corredores. Avisamos 24h antes de abrir.</small></div>
   </div>
 </div>
 
@@ -541,7 +546,7 @@
     e.preventDefault();
     pending={nome:f.nome.value.trim(),email:f.email.value.trim(),celular:f.celular.value.trim()}; pendingForm=f; cor='';
     document.querySelectorAll('.cor').forEach(c=>c.classList.remove('sel'));
-    confirmBtn.disabled=true; modal.classList.remove('done'); modal.classList.add('on');
+    confirmBtn.disabled=true; modal.classList.remove('done','busy'); modal.classList.add('on');
   }));
   document.querySelectorAll('.cor:not(.soon)').forEach(c=>c.addEventListener('click',()=>{
     document.querySelectorAll('.cor').forEach(x=>x.classList.remove('sel')); c.classList.add('sel');
@@ -554,7 +559,8 @@
 
   confirmBtn.addEventListener('click',async()=>{
     const lead={...pending,cor,origem:location.href,data:new Date().toISOString()};
-    confirmBtn.disabled=true;
+    confirmBtn.disabled=true; modal.classList.add('busy');
+    const started=Date.now();
     try{
       if(LEAD_ENDPOINT){
         await fetch(LEAD_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(lead)});
@@ -563,9 +569,10 @@
         const all=JSON.parse(localStorage.getItem('g2_leads')||'[]'); all.push(lead); localStorage.setItem('g2_leads',JSON.stringify(all));
       }
     }catch(err){console.error('lead error',err)}
-    modal.classList.add('done');
+    await new Promise(r=>setTimeout(r,Math.max(0,900-(Date.now()-started))));
+    modal.classList.remove('busy'); modal.classList.add('done');
     if(pendingForm){pendingForm.querySelector('button span').textContent='Você está na lista ✓';pendingForm.reset();}
-    setTimeout(close,1800);
+    setTimeout(close,3500);
   });
 </script>
 </body>
