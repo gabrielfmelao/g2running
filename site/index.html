@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>G2 Tech Socks · Tecnologia e Performance</title>
+<meta name="description" content="G2 Tech Socks. Meia de corrida em poliamida de alta tenacidade, feita no Brasil. Pé esquerdo e direito, sem costura no dedo, seca em minutos.">
+<link rel="icon" type="image/svg+xml" href="logo/g2_logo_transparente_preto.svg?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,700;0,900;1,900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#181818; --ink-2:#1B1B1B; --ink-3:#242424; --line:#2E2E2E;
+    --bone:#F5F4EF; --bone-2:#D8D6CE; --mute:#8F8D86;
+    --red:#D92B2B;
+    --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+    --body:"Inter","Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--bone);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+  .eyebrow{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--mute)}
+  .eyebrow::before{content:"";display:inline-block;width:22px;height:2px;background:var(--red);vertical-align:middle;margin-right:12px}
+  h1,h2,h3{font-family:var(--display);font-weight:900;letter-spacing:-.025em;line-height:1;text-transform:uppercase}
+  h2{font-size:clamp(36px,5.2vw,68px)}
+  .red{color:var(--red)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:18px 28px;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;position:relative;overflow:hidden;transition:color .2s ease;border:0;cursor:pointer}
+  .btn::after{content:"";position:absolute;inset:0;background:var(--bone);transform:translateX(-101%);transition:transform .3s cubic-bezier(.7,0,.2,1);z-index:0}
+  .btn span{position:relative;z-index:1}
+  .btn-red{background:var(--red);color:var(--bone)}
+  .btn-red:hover{color:var(--ink)}
+  .btn-red:hover::after{transform:translateX(0)}
+  .btn-ghost{border:2px solid var(--bone);color:var(--bone);background:transparent}
+  .btn-ghost:hover{color:var(--ink)}
+  .btn-ghost:hover::after{transform:translateX(0)}
+
+  form.wl{display:flex;max-width:560px;border:2px solid var(--bone);background:rgba(24,24,24,.6)}
+  form.wl input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--bone);padding:18px 22px;font-size:15px;font-family:inherit}
+  form.wl input::placeholder{color:var(--mute)}
+  form.wl .btn{padding:18px 24px}
+  .fine{margin-top:12px;font-size:12px;color:var(--mute)}
+
+  .lines{position:absolute;pointer-events:none}
+  .lines i{display:block;height:4px;background:var(--bone);margin:14px 0;opacity:.9;transform-origin:right}
+  .lines i:nth-child(1){width:140px}
+  .lines i:nth-child(2){width:220px;margin-left:-40px}
+  .lines i:nth-child(3){width:120px}
+
+  .rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+
+  nav{position:sticky;top:0;z-index:20;background:rgba(24,24,24,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
+  nav .logo img{height:54px;width:auto}
+  nav ul{display:flex;gap:36px;list-style:none;font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-2)}
+  nav ul a{position:relative;padding-bottom:4px}
+  nav ul a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--red);transition:width .25s ease}
+  nav ul a:hover::after{width:100%}
+  @media(max-width:860px){nav ul{display:none}}
+
+  .opening{display:none;background:#0E0E0E;position:relative;border-bottom:1px solid var(--line)}
+  .opening.on{display:block}
+  .opening video{width:100%;height:min(80vh,720px);object-fit:cover;display:block}
+  .opening .over{position:absolute;inset:0;display:flex;align-items:flex-end;background:linear-gradient(to top,rgba(14,14,14,.9) 0%,rgba(14,14,14,.2) 50%,transparent)}
+  .opening .over .wrap{padding-bottom:48px;width:100%}
+  .opening .over h2{font-size:clamp(28px,4vw,52px);max-width:18ch;margin-bottom:12px}
+  .opening .over span{font-size:13px;color:var(--mute)}
+
+  .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);min-height:min(calc(100vh - 76px),860px);display:flex;align-items:center}
+  .hero .bg{position:absolute;inset:0;background:
+      radial-gradient(900px 500px at 85% 20%, rgba(217,43,43,.18), transparent 60%),
+      repeating-linear-gradient(90deg, transparent 0 120px, rgba(245,244,239,.035) 120px 121px)}
+  .hero .wrap{position:relative;display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center;padding-top:72px;padding-bottom:72px;width:100%}
+  .hero h1{font-size:clamp(64px,10.5vw,160px);line-height:.86;letter-spacing:-.04em}
+  .hero h1 span{display:block}
+  .hero h1 .it{font-style:italic;color:var(--red)}
+  .hero p.lead{margin:32px 0 32px;font-size:19px;max-width:540px;color:var(--bone-2)}
+  .hero .panel{position:relative;aspect-ratio:1/1;background:var(--bone);display:grid;place-items:center;overflow:hidden}
+  .hero .panel img{width:82%;height:auto}
+  .hero .panel .tag{position:absolute;left:22px;bottom:20px;font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.26em;color:var(--ink)}
+  .hero .panel .tag b{color:var(--red)}
+  .hero .panel::before{content:"";position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 90px 90px 0;border-color:transparent var(--red) transparent transparent}
+  .hero .lines{left:-60px;top:52%;transform:translateY(-50%)}
+  .hero .lines i{animation:dash 1.6s ease-in-out infinite}
+  .hero .lines i:nth-child(2){animation-delay:.2s}.hero .lines i:nth-child(3){animation-delay:.4s}
+  @keyframes dash{0%{transform:scaleX(.3);opacity:0}30%{opacity:1}100%{transform:scaleX(1);opacity:0}}
+  @media(max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero .panel{max-width:420px}.hero .lines{display:none}}
+
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--red);color:var(--bone);overflow:hidden;white-space:nowrap;padding:16px 0}
+  .marquee .track{display:inline-block;animation:scroll 28s linear infinite;font-family:var(--display);font-weight:900;font-size:16px;letter-spacing:.2em;text-transform:uppercase}
+  .marquee span{padding:0 36px}
+  .marquee span::before{content:"●";font-size:9px;vertical-align:middle;margin-right:36px;opacity:.8}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  section{padding:128px 0;border-bottom:1px solid var(--line);position:relative}
+  .sec-head{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:end;margin-bottom:72px}
+  .sec-head p{color:var(--bone-2);font-size:18px;max-width:480px}
+  @media(max-width:860px){.sec-head{grid-template-columns:1fr}}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  .cell{background:var(--ink);padding:44px 34px;min-height:280px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;transition:background .25s ease}
+  .cell::after{content:"";position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--red);transition:width .35s cubic-bezier(.7,0,.2,1)}
+  .cell:hover{background:var(--ink-3)}
+  .cell:hover::after{width:100%}
+  .cell .n{font-family:var(--display);font-weight:900;font-style:italic;font-size:64px;color:var(--line);line-height:1;transition:color .25s}
+  .cell:hover .n{color:var(--red)}
+  .cell h3{font-size:19px;margin:16px 0 10px;letter-spacing:-.01em}
+  .cell p{color:var(--mute);font-size:15px}
+  @media(max-width:860px){.grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}}
+
+  .poly .wrap{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+  .poly h2{margin:14px 0 28px}
+  .poly p{color:var(--bone-2);font-size:17px;max-width:54ch}
+  .poly p + p{margin-top:16px}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th{text-align:left;font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);padding:0 0 14px;border-bottom:2px solid var(--bone)}
+  th.g2{color:var(--red)}
+  td{padding:16px 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--bone-2)}
+  td:first-child{color:var(--mute);width:34%}
+  td.g2{color:var(--bone);font-weight:500}
+  .poly .comp{margin-top:16px;font-size:12px;color:var(--mute)}
+  @media(max-width:860px){.poly .wrap{grid-template-columns:1fr;gap:40px}}
+
+  .anat .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+  .anat .fig{background:var(--bone);padding:40px 32px 28px;position:relative}
+  .anat .fig::before{content:"";position:absolute;top:0;left:0;width:0;height:0;border-style:solid;border-width:70px 70px 0 0;border-color:var(--red) transparent transparent transparent}
+  .anat .fig svg{width:100%;height:auto}
+  .anat .fig figcaption{margin-top:12px;font-size:12px;color:#6E6C66;font-family:var(--display);font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+  .anat h2{margin:14px 0 0}
+  .anat ol{list-style:none;counter-reset:z;display:grid;gap:22px;margin-top:32px}
+  .anat li{display:grid;grid-template-columns:36px 1fr;gap:16px;align-items:start}
+  .anat li::before{counter-increment:z;content:counter(z,decimal-leading-zero);font-family:var(--display);font-weight:900;font-style:italic;font-size:18px;color:var(--red)}
+  .anat li b{display:block;font-family:var(--display);font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:2px}
+  .anat li span{color:var(--bone-2);font-size:15px}
+  @media(max-width:860px){.anat .wrap{grid-template-columns:1fr}}
+
+  .products{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .card{background:var(--ink-2);border:1px solid var(--line);display:flex;flex-direction:column;position:relative;transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s}
+  .card:hover{transform:translateY(-6px);border-color:var(--bone-2)}
+  .card.featured{border-color:var(--red)}
+  .card .pill{position:absolute;top:-1px;right:24px;background:var(--red);color:var(--bone);font-family:var(--display);font-weight:700;font-size:10px;letter-spacing:.24em;padding:8px 12px;z-index:2}
+  .card .sock{height:230px;background:var(--bone);display:grid;place-items:center;overflow:hidden;position:relative}
+  .card .sock svg{width:120px;height:150px;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+  .card:hover .sock svg{transform:translateY(-8px) rotate(-6deg)}
+  .card .sock .lab{position:absolute;left:18px;top:16px;font-family:var(--display);font-weight:700;font-size:10px;letter-spacing:.24em;color:var(--ink)}
+  .card .body{padding:28px 28px 32px;display:flex;flex-direction:column;gap:16px;flex:1}
+  .card h3{font-size:24px}
+  .card .price{font-family:var(--display);font-weight:900;font-size:38px;letter-spacing:-.03em}
+  .card .price small{font-family:var(--body);font-size:13px;color:var(--mute);font-weight:400;margin-left:10px;letter-spacing:0}
+  .card ul{list-style:none;color:var(--bone-2);font-size:14px;display:grid;gap:8px}
+  .card ul li::before{content:"";display:inline-block;width:8px;height:2px;background:var(--red);margin-right:10px;vertical-align:middle}
+  .card .btn{margin-top:auto}
+  @media(max-width:900px){.products{grid-template-columns:1fr}}
+
+  .story{background:var(--bone);color:var(--ink)}
+  .story .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:72px;align-items:center}
+  .story blockquote{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(30px,4vw,54px);line-height:.98;letter-spacing:-.03em}
+  .story blockquote em{color:var(--red);font-style:italic}
+  .story p{color:#3C3B38;margin-top:26px;font-size:17px;max-width:520px}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .stat{border-top:3px solid var(--ink);padding-top:16px}
+  .stat b{display:block;font-family:var(--display);font-weight:900;font-size:56px;letter-spacing:-.04em;line-height:1}
+  .stat span{color:#6E6C66;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+  .story .lines{right:-40px;bottom:40px}
+  .story .lines i{background:var(--ink)}
+  @media(max-width:860px){.story .wrap{grid-template-columns:1fr}.story .lines{display:none}}
+
+  .sub .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+  .sub h2{margin-top:14px}
+  .sub p{color:var(--bone-2);font-size:18px;margin:22px 0 34px;max-width:480px}
+  .sub .box{border:1px solid var(--line);padding:40px;background:var(--ink-2);position:relative}
+  .sub .box::before{content:"";position:absolute;top:0;left:0;width:100%;height:4px;background:var(--red)}
+  .sub .box .plan{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.3em;color:var(--mute);text-transform:uppercase}
+  .sub .box .price{font-family:var(--display);font-weight:900;font-size:56px;letter-spacing:-.04em;margin-top:10px}
+  .sub .box .price small{font-family:var(--body);font-size:14px;color:var(--mute);font-weight:400;margin-left:10px}
+  .sub .box ul{list-style:none;margin:22px 0 30px;display:grid;gap:12px;color:var(--bone-2);font-size:15px}
+  .sub .box ul li::before{content:"";display:inline-block;width:10px;height:2px;background:var(--red);margin-right:12px;vertical-align:middle}
+  .sub .btn-red{width:100%}
+  @media(max-width:860px){.sub .wrap{grid-template-columns:1fr}}
+
+  .wait{text-align:center;background:radial-gradient(700px 400px at 50% 100%, rgba(217,43,43,.22), transparent 70%)}
+  .wait h2{max-width:900px;margin:0 auto 22px;font-size:clamp(40px,6vw,84px)}
+  .wait p{color:var(--bone-2);max-width:520px;margin:0 auto 40px;font-size:17px}
+  .wait form.wl{margin:0 auto}
+  .wait .perks{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;margin-top:40px;font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+  .wait .perks b{color:var(--bone)}
+
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--bone);color:var(--ink);transform:translateY(110%);transition:transform .35s cubic-bezier(.2,.7,.2,1);border-top:3px solid var(--red)}
+  .bar.on{transform:none}
+  .bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;height:64px}
+  .bar .t{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+  .bar .t b{color:var(--red)}
+  .bar .btn{padding:12px 20px;font-size:12px}
+  @media(max-width:600px){.bar .t span{display:none}}
+
+  footer{padding:56px 0 110px;color:var(--mute);font-size:13px}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+  footer img{height:64px;width:auto}
+  footer .tag{font-family:var(--display);font-weight:700;letter-spacing:.24em;text-transform:uppercase;font-size:11px;color:var(--bone-2)}
+
+  /* modal de cor */
+  .modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(24,24,24,.85);backdrop-filter:blur(6px)}
+  .modal.on{display:flex}
+  .modal .box{width:100%;max-width:520px;background:var(--ink-2);border:2px solid var(--bone);padding:36px 32px;position:relative}
+  .modal .x{position:absolute;top:12px;right:16px;background:0;border:0;color:var(--mute);font-size:26px;cursor:pointer;line-height:1}
+  .modal h3{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:-.02em;margin:0 0 6px;color:var(--bone)}
+  .modal p{color:var(--mute);font-size:14px;margin:0 0 24px}
+  .cores{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+  .cor{border:2px solid var(--line);background:var(--ink-3);padding:18px 10px 14px;text-align:center;cursor:pointer;font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone);transition:border-color .2s}
+  .cor i{display:block;width:44px;height:44px;border-radius:50%;margin:0 auto 12px;border:2px solid var(--line)}
+  .cor:hover,.cor.sel{border-color:var(--red)}
+  .cor.sel i{box-shadow:0 0 0 3px var(--ink-2),0 0 0 5px var(--red)}
+  .cor.soon{cursor:not-allowed;opacity:.5}
+  .cor.soon:hover{border-color:var(--line)}
+  .cor.soon small{display:block;color:var(--red);font-size:10px;margin-top:6px;letter-spacing:.14em}
+  .modal .btn-red{width:100%}
+  .modal .btn-red[disabled]{opacity:.4;cursor:not-allowed}
+  .modal .ok{display:none;text-align:center;padding:20px 0 4px;color:var(--bone);font-family:var(--display);font-weight:700;font-size:20px}
+  .modal.done .ok{display:block}
+  .modal.done .cores,.modal.done .btn-red,.modal.done p{display:none}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="sock" viewBox="0 0 120 150">
+    <path d="M36 6h46v66c0 10 8 16 20 26 14 12 12 34-6 40-16 6-36-4-50-20L36 108z" fill="none" stroke="#181818" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M36 6h46v20H36z" fill="#181818"/>
+    <path d="M46 98c14 16 28 24 44 22" stroke="#D92B2B" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <path d="M50 52h18M50 64h18" stroke="#181818" stroke-width="4" stroke-linecap="round" opacity=".35"/>
+  </symbol>
+</svg>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#"><img src="logo/g2_logo_transparente_branco.svg?v=2" alt="G2 Tech Socks"></a>
+    <ul>
+      <li><a href="#tecnologia">Tecnologia</a></li>
+      <li><a href="#poliamida">Poliamida</a></li>
+      <li><a href="#produtos">Produtos</a></li>
+      <li><a href="#assinatura">Assinatura</a></li>
+    </ul>
+    <a class="btn btn-red" href="#lista"><span>Entrar na lista de espera</span></a>
+  </div>
+</nav>
+
+<section class="opening" id="abertura" style="padding:0">
+  <video id="openingVideo" muted autoplay loop playsinline preload="metadata"></video>
+  <div class="over"><div class="wrap">
+    <h2>Construída fio a fio, <span class="red">zona por zona.</span></h2>
+    <span>Linha de produção G2 · Brasil</span>
+  </div></div>
+</section>
+
+<header class="hero" id="topo">
+  <div class="bg"></div>
+  <div class="lines"><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div>
+      <div class="eyebrow rv">Tech Socks · feitas no Brasil</div>
+      <h1 class="rv d1"><span>Seu pé</span><span>não deveria</span><span class="it">pensar.</span></h1>
+      <p class="lead rv d2">A revolução das meias dos corredores, amadores ou profissionais. Meia de corrida em poliamida de alta tenacidade. Pé esquerdo e direito, sem costura no dedo, seca em minutos. A G2 some no pé para você se lembrar só do ritmo.</p>
+      <form class="wl rv d3" data-lead>
+        <input type="email" required placeholder="seu@email.com">
+        <button class="btn btn-red" type="submit"><span>Entrar na lista</span></button>
+      </form>
+      <div class="fine rv d3">Lote 001: 100 kits a R$ 149,90 só para quem está na lista.</div>
+    </div>
+    <div class="panel rv d2">
+      <img src="logo/g2_logo_transparente_preto.svg?v=2" alt="G2 · Tecnologia e Performance">
+      <div class="tag">LOTE 001 · <b>100 KITS</b> · 2026</div>
+    </div>
+  </div>
+</header>
+
+<div class="marquee">
+  <div class="track">
+    <span>Tech Socks</span><span>Poliamida de alta tenacidade</span><span>Zero costura no dedo</span><span>Pé esquerdo e direito</span><span>Compressão no arco</span><span>Feita no Brasil</span>
+    <span>Tech Socks</span><span>Poliamida de alta tenacidade</span><span>Zero costura no dedo</span><span>Pé esquerdo e direito</span><span>Compressão no arco</span><span>Feita no Brasil</span>
+  </div>
+</div>
+
+<section id="tecnologia">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="eyebrow rv">Tecnologia</div><h2 class="rv d1">Seis decisões que uma meia de algodão <span class="red">nunca tomou.</span></h2></div>
+      <p class="rv d2">Cada par é construído por zona. O que vai no calcanhar não é o que vai no peito do pé, e nenhum dos dois é o que vai no dedo.</p>
+    </div>
+    <div class="grid">
+      <div class="cell rv"><div class="n">01</div><div><h3>Zero costura no dedo</h3><p>Fechamento hand-linked. Nada roça na unha nos últimos 5 km.</p></div></div>
+      <div class="cell rv d1"><div class="n">02</div><div><h3>Esquerda e direita</h3><p>Molde anatômico para cada pé. A meia não gira dentro do tênis.</p></div></div>
+      <div class="cell rv d2"><div class="n">03</div><div><h3>Compressão no arco</h3><p>Faixa elástica que segura a meia no lugar e apoia a fáscia plantar.</p></div></div>
+      <div class="cell rv"><div class="n">04</div><div><h3>Poliamida, não algodão</h3><p>Algodão guarda suor e vira bolha. Poliamida de alta tenacidade seca em minutos.</p></div></div>
+      <div class="cell rv d1"><div class="n">05</div><div><h3>Calcanhar e dedo reforçados</h3><p>Densidade extra onde o tênis mais desgasta. Mais quilômetros por par.</p></div></div>
+      <div class="cell rv d2"><div class="n">06</div><div><h3>Malha ventilada no dorso</h3><p>Canal de ventilação no peito do pé, onde o calor acumula.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="poly" id="poliamida">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow rv">O fio</div>
+      <h2 class="rv d1">Por que poliamida, <span class="red">e não algodão.</span></h2>
+      <p class="rv d2">Algodão absorve até 7% do próprio peso em água e segura o suor junto da pele. Molhado, fica pesado, esfria e esfrega. É assim que a bolha nasce.</p>
+      <p class="rv d2">Poliamida absorve quase nada. O suor passa pelo fio e evapora pela malha, e a meia continua leve do primeiro ao último quilômetro. É o mesmo material das meias de referência mundial, como Balega e Feetures.</p>
+      <p class="rv d3">A nossa é poliamida de alta tenacidade com elastano. A alta tenacidade resiste ao atrito do calcanhar contra o tênis, prova após prova. O elastano faz a meia voltar à forma depois de lavar.</p>
+    </div>
+    <div class="rv d2">
+      <table>
+        <thead><tr><th></th><th>Algodão</th><th class="g2">G2 Tech</th></tr></thead>
+        <tbody>
+          <tr><td>Absorção de suor</td><td>Alta, retém na fibra</td><td class="g2">Baixa, transporta e evapora</td></tr>
+          <tr><td>Tempo de secagem</td><td>Horas</td><td class="g2">Minutos</td></tr>
+          <tr><td>Peso molhada</td><td>Dobra</td><td class="g2">Quase não muda</td></tr>
+          <tr><td>Resistência ao atrito</td><td>Fura no calcanhar</td><td class="g2">Fio de alta tenacidade</td></tr>
+          <tr><td>Forma após lavar</td><td>Alarga</td><td class="g2">Volta, por causa do elastano</td></tr>
+          <tr><td>Cheiro</td><td>Guarda</td><td class="g2">Não guarda</td></tr>
+        </tbody>
+      </table>
+      <div class="comp">Composição G2: 78% poliamida de alta tenacidade, 20% elastano, 2% poliéster no reforço.</div>
+    </div>
+  </div>
+</section>
+
+<section class="anat" id="anatomia">
+  <div class="wrap">
+    <figure class="fig rv">
+      <svg viewBox="-40 0 620 560" xmlns="http://www.w3.org/2000/svg" aria-label="Meia G2 cano curto, vista lateral">
+        <defs>
+          <pattern id="mesh" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="1.3" fill="#181818" opacity=".35"/></pattern>
+          <pattern id="rib" width="10" height="10" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="4" height="10" fill="#181818" opacity=".12"/></pattern>
+        </defs>
+        <path d="M190 60 H330 V300 C330 330 340 350 365 372 L470 452 C500 474 492 520 455 528 L270 528 C230 528 200 505 185 470 L190 300 Z" fill="#fff" stroke="#181818" stroke-width="6" stroke-linejoin="round"/>
+        <rect x="190" y="60" width="140" height="56" fill="url(#rib)" stroke="#181818" stroke-width="6"/>
+        <path d="M330 300 C330 330 340 350 365 372 L420 414 L420 470 L300 470 L300 300 Z" fill="url(#mesh)"/>
+        <path d="M196 350 H330 C330 364 332 378 338 390 H196 Z" fill="#181818" opacity=".9"/>
+        <path d="M196 362 H334 M196 376 H336" stroke="#F5F4EF" stroke-width="2"/>
+        <path d="M190 440 C190 490 230 528 270 528 L300 528 L300 470 L250 470 C230 470 210 455 190 440 Z" fill="#D92B2B" opacity=".9"/>
+        <path d="M455 528 C492 520 500 474 470 452 L450 436 L430 470 L430 528 Z" fill="#D92B2B" opacity=".9"/>
+        <path d="M430 470 L430 528" stroke="#fff" stroke-width="3" stroke-dasharray="4 6"/>
+        <g font-family="Archivo, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#181818">
+          <g><line x1="330" y1="88" x2="400" y2="88" stroke="#181818" stroke-width="1.5"/><circle cx="400" cy="88" r="3" fill="#181818"/><text x="410" y="92">01 PUNHO</text></g>
+          <g><line x1="380" y1="330" x2="440" y2="330" stroke="#181818" stroke-width="1.5"/><circle cx="440" cy="330" r="3" fill="#181818"/><text x="450" y="334">02 MALHA</text></g>
+          <g><line x1="196" y1="370" x2="120" y2="370" stroke="#181818" stroke-width="1.5"/><circle cx="120" cy="370" r="3" fill="#181818"/><text x="-10" y="374">03 COMPRESSÃO</text></g>
+          <g><line x1="215" y1="500" x2="120" y2="500" stroke="#181818" stroke-width="1.5"/><circle cx="120" cy="500" r="3" fill="#181818"/><text x="6" y="504">04 CALCANHAR</text></g>
+          <g><line x1="470" y1="500" x2="500" y2="500" stroke="#181818" stroke-width="1.5"/><circle cx="500" cy="500" r="3" fill="#181818"/><text x="440" y="548">05 PONTA</text></g>
+        </g>
+      </svg>
+      <figcaption>Cano curto · vista lateral · vermelho = reforço</figcaption>
+    </figure>
+    <div>
+      <div class="eyebrow rv">Anatomia</div>
+      <h2 class="rv d1">Construída <span class="red">por zona.</span></h2>
+      <ol class="rv d2">
+        <li><div><b>Punho canelado</b><span>Segura no tornozelo sem apertar. Não desce durante a corrida.</span></div></li>
+        <li><div><b>Malha ventilada no dorso</b><span>Peito do pé é onde o calor acumula. Aqui a malha é mais aberta.</span></div></li>
+        <li><div><b>Faixa de compressão no arco</b><span>Elástico leve que prende a meia no lugar e apoia a fáscia plantar.</span></div></li>
+        <li><div><b>Calcanhar e ponta reforçados</b><span>Densidade maior onde o tênis desgasta. A meia dura mais quilômetros.</span></div></li>
+        <li><div><b>Fechamento sem costura</b><span>A ponta é fechada malha com malha. Nada roça na unha.</span></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="produtos">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="eyebrow rv">Produtos</div><h2 class="rv d1">Um modelo. Três canos. <span class="red">Feito certo.</span></h2></div>
+      <p class="rv d2">Preço único em todos os canais. Sem promoção de 25% para você esperar o próximo mês.</p>
+    </div>
+    <div class="products">
+      <div class="card rv">
+        <div class="sock"><div class="lab">01 / PAR</div><svg><use href="#sock"/></svg></div>
+        <div class="body">
+          <h3>Par avulso</h3>
+          <div class="price">R$ 64,90</div>
+          <ul><li>Invisível, cano curto ou médio</li><li>Preto, osso ou grafite</li><li>Tamanhos 35 a 44</li></ul>
+          <a class="btn btn-ghost" href="#lista"><span>Entrar na lista</span></a>
+        </div>
+      </div>
+      <div class="card featured rv d1">
+        <div class="pill">LOTE 001</div>
+        <div class="sock"><div class="lab">02 / KIT 3</div><svg><use href="#sock"/></svg></div>
+        <div class="body">
+          <h3>Kit 3 pares</h3>
+          <div class="price">R$ 169,90<small>R$ 56,63 o par</small></div>
+          <ul><li>Misture canos e cores</li><li>Frete grátis para todo o Brasil</li><li>Na lista: R$ 149,90 para os 100 primeiros</li></ul>
+          <a class="btn btn-red" href="#lista"><span>Garantir o meu kit</span></a>
+        </div>
+      </div>
+      <div class="card rv d2">
+        <div class="sock"><div class="lab">03 / KIT 5</div><svg><use href="#sock"/></svg></div>
+        <div class="body">
+          <h3>Kit 5 pares</h3>
+          <div class="price">R$ 259,90<small>R$ 51,98 o par</small></div>
+          <ul><li>Uma semana de treino</li><li>Frete grátis para todo o Brasil</li><li>Embalagem para presente</li></ul>
+          <a class="btn btn-ghost" href="#lista"><span>Entrar na lista</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="lines"><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div>
+      <blockquote class="rv">Ninguém fala da meia até ela <em>falhar.</em> A gente construiu a G2 para você nunca ter esse assunto.</blockquote>
+      <p class="rv d1">Corredor brasileiro paga R$ 800 no tênis e corre com meia de kit de três por R$ 30. A G2 nasce para fechar essa distância, com o mesmo nível técnico das marcas que você vê nos reviews gringos, produzida aqui, pela metade do preço da importada.</p>
+    </div>
+    <div class="stats">
+      <div class="stat rv"><b>14,6 mi</b><span>corredores no Brasil</span></div>
+      <div class="stat rv d1"><b>0</b><span>costuras no dedo</span></div>
+      <div class="stat rv d2"><b>2</b><span>moldes, esquerdo e direito</span></div>
+      <div class="stat rv d3"><b>100</b><span>kits no lote 001</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sub" id="assinatura">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow rv">Assinatura</div>
+      <h2 class="rv d1">Meia nova a cada dois meses. <span class="red">Pé novo</span> a cada treino.</h2>
+      <p class="rv d2">Meia técnica rende de 4 a 6 meses de uso. A assinatura troca o kit antes de o elástico ceder, sem você lembrar de comprar.</p>
+    </div>
+    <div class="box rv d2">
+      <div class="plan">Plano G2 Ritmo</div>
+      <div class="price">R$ 149,90<small>a cada 2 meses</small></div>
+      <ul>
+        <li>3 pares por ciclo, R$ 49,97 o par</li>
+        <li>Troque cano e cor a qualquer momento</li>
+        <li>Frete grátis, pause ou cancele quando quiser</li>
+        <li>Acesso antecipado a novos modelos</li>
+      </ul>
+      <a class="btn btn-red" href="#lista"><span>Entrar na lista</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="wait" id="lista">
+  <div class="wrap">
+    <div class="eyebrow rv" style="margin-bottom:20px;display:inline-block">Lote 001</div>
+    <h2 class="rv d1">100 kits. Preço de lançamento. <span class="red">Depois acabou.</span></h2>
+    <p class="rv d2">Deixe seu e-mail e a gente avisa 24 horas antes de abrir a loja. Quem está na lista paga R$ 149,90 no kit de 3.</p>
+    <form class="wl rv d3" data-lead>
+      <input type="email" required placeholder="seu@email.com">
+      <button class="btn btn-red" type="submit"><span>Entrar na lista</span></button>
+    </form>
+    <div class="fine">Sem spam. Um e-mail quando abrir, outro quando acabar.</div>
+    <div class="perks rv d3"><div><b>R$ 20</b> de desconto no kit</div><div><b>24h</b> de acesso antecipado</div><div><b>Frete grátis</b> no lote 001</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <img src="logo/g2_logo_transparente_branco.svg?v=2" alt="G2 · Tecnologia e Performance">
+    <div>Feita no Brasil · © 2026 G2</div>
+  </div>
+</footer>
+
+<div class="bar" id="bar">
+  <div class="wrap">
+    <div class="t">Lote 001 · <b>100 kits</b> <span>· R$ 149,90 só para a lista</span></div>
+    <a class="btn btn-red" href="#lista"><span>Entrar na lista</span></a>
+  </div>
+</div>
+
+<script>
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  const bar=document.getElementById('bar'), hero=document.getElementById('topo'), lista=document.getElementById('lista');
+  const vis=new Map();
+  const io2=new IntersectionObserver(es=>{es.forEach(e=>vis.set(e.target,e.isIntersecting));bar.classList.toggle('on',!vis.get(hero)&&!vis.get(lista));},{threshold:.2});
+  io2.observe(hero);io2.observe(lista);
+
+  fetch('video/abertura.mp4',{method:'HEAD'}).then(r=>{if(r.ok){const v=document.getElementById('openingVideo');v.src='video/abertura.mp4';document.getElementById('abertura').classList.add('on');}}).catch(()=>{});
+</script>
+<div class="modal" id="corModal" role="dialog" aria-modal="true">
+  <div class="box">
+    <button class="x" type="button" aria-label="Fechar" data-close>&times;</button>
+    <h3>Qual cor você quer?</h3>
+    <p>Escolha a cor do seu kit. A gente separa a sua antes de abrir a loja.</p>
+    <div class="cores">
+      <button type="button" class="cor" data-cor="Preta"><i style="background:#181818"></i>Preta</button>
+      <button type="button" class="cor" data-cor="Branca"><i style="background:#F5F4EF"></i>Branca</button>
+      <button type="button" class="cor soon" disabled><i style="background:linear-gradient(135deg,#D92B2B,#F5F4EF 50%,#181818)"></i>Colorida<small>Em breve</small></button>
+    </div>
+    <button class="btn btn-red" type="button" id="corConfirm" disabled><span>Confirmar e entrar na lista</span></button>
+    <div class="ok">Você está na lista ✓<br><small style="font-weight:400;font-size:14px;color:var(--mute)">Avisamos 24h antes de abrir.</small></div>
+  </div>
+</div>
+
+<script>
+  // ===== LEADS =====
+  // Cole aqui o endpoint do Formspree (https://formspree.io), ex.: 'https://formspree.io/f/abcdwxyz'
+  // Enquanto estiver vazio, os leads ficam só no console e no localStorage do navegador.
+  const LEAD_ENDPOINT = '';
+
+  const modal=document.getElementById('corModal'), confirmBtn=document.getElementById('corConfirm');
+  let pendingEmail='', pendingForm=null, cor='';
+
+  document.querySelectorAll('form[data-lead]').forEach(f=>f.addEventListener('submit',e=>{
+    e.preventDefault();
+    pendingEmail=f.querySelector('input[type=email]').value.trim(); pendingForm=f; cor='';
+    document.querySelectorAll('.cor').forEach(c=>c.classList.remove('sel'));
+    confirmBtn.disabled=true; modal.classList.remove('done'); modal.classList.add('on');
+  }));
+  document.querySelectorAll('.cor:not(.soon)').forEach(c=>c.addEventListener('click',()=>{
+    document.querySelectorAll('.cor').forEach(x=>x.classList.remove('sel')); c.classList.add('sel');
+    cor=c.dataset.cor; confirmBtn.disabled=false;
+  }));
+  const close=()=>modal.classList.remove('on');
+  modal.querySelector('[data-close]').addEventListener('click',close);
+  modal.addEventListener('click',e=>{if(e.target===modal)close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+
+  confirmBtn.addEventListener('click',async()=>{
+    const lead={email:pendingEmail,cor,origem:location.href,data:new Date().toISOString()};
+    confirmBtn.disabled=true;
+    try{
+      if(LEAD_ENDPOINT){
+        await fetch(LEAD_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(lead)});
+      }else{
+        console.log('[G2 lead]',lead);
+        const all=JSON.parse(localStorage.getItem('g2_leads')||'[]'); all.push(lead); localStorage.setItem('g2_leads',JSON.stringify(all));
+      }
+    }catch(err){console.error('lead error',err)}
+    modal.classList.add('done');
+    if(pendingForm){pendingForm.querySelector('button span').textContent='Você está na lista ✓';pendingForm.querySelector('input').value='';}
+    setTimeout(close,1800);
+  });
+</script>
+</body>
+</html>

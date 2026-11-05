@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <rect width="600" height="400" fill="#F2EFE8"/>
+  <!-- arco da passada -->
+  <path d="M150 170 Q300 20 450 170" fill="none" stroke="#0E0F10" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="450" cy="170" r="14" fill="#C6F136"/>
+  <text x="300" y="300" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="300" font-size="190" letter-spacing="-10" fill="#0E0F10">G2</text>
+  <text x="300" y="350" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="500" font-size="18" letter-spacing="12" fill="#0E0F10">RUNNING SOCKS</text>
+</svg>
